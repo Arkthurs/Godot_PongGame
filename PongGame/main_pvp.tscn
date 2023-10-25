@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://daup4baf3yi0g"]
+
+[ext_resource type="Script" path="res://main_pvp.gd" id="1_ckld1"]
+[ext_resource type="PackedScene" uid="uid://byqok8sylc48v" path="res://wall.tscn" id="2_teyes"]
+[ext_resource type="PackedScene" uid="uid://fc8n1qrpt5bw" path="res://player.tscn" id="3_ol05c"]
+[ext_resource type="PackedScene" uid="uid://dkehpr266biqf" path="res://hud.tscn" id="5_lnqqo"]
+[ext_resource type="Script" path="res://PlayerScore.gd" id="6_0gupq"]
+[ext_resource type="Script" path="res://OpponentScore.gd" id="7_o7rcg"]
+[ext_resource type="PackedScene" uid="uid://b88obju0rdou2" path="res://player_2.tscn" id="7_wpmpk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m7fpl"]
+size = Vector2(58.5, 659)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2g23i"]
+size = Vector2(61, 659)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmese"]
+size = Vector2(1010, 653)
+
+[node name="Main pvp" type="Node"]
+script = ExtResource("1_ckld1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="BallStartPosition" type="Marker2D" parent="."]
+position = Vector2(575, 300)
+
+[node name="Wall" parent="." instance=ExtResource("2_teyes")]
+visible = false
+position = Vector2(0, -36)
+disable_mode = 1
+
+[node name="Wall2" parent="." instance=ExtResource("2_teyes")]
+visible = false
+position = Vector2(2, 654)
+disable_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("3_ol05c")]
+position = Vector2(50, 134)
+
+[node name="Opponent Scoring Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Opponent Scoring Area"]
+position = Vector2(-26.75, 322)
+shape = SubResource("RectangleShape2D_m7fpl")
+
+[node name="Player Scoring Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player Scoring Area"]
+position = Vector2(1179.5, 319.5)
+shape = SubResource("RectangleShape2D_2g23i")
+
+[node name="HUD" parent="." instance=ExtResource("5_lnqqo")]
+
+[node name="PlayerScore" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -119.0
+offset_right = -79.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+script = ExtResource("6_0gupq")
+
+[node name="OpponentScore" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 77.0
+offset_right = 117.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+script = ExtResource("7_o7rcg")
+
+[node name="Ball Detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball Detection"]
+position = Vector2(576, 321)
+shape = SubResource("RectangleShape2D_wmese")
+
+[node name="Player2" parent="." instance=ExtResource("7_wpmpk")]
+position = Vector2(1102, 133)
+
+[connection signal="update_opponent_score" from="." to="OpponentScore" method="_on_main_update_opponent_score"]
+[connection signal="update_player_score" from="." to="PlayerScore" method="_on_main_update_player_score"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Opponent Scoring Area" to="." method="_on_opponent_scoring_area_body_entered"]
+[connection signal="body_entered" from="Player Scoring Area" to="." method="_on_player_scoring_area_body_entered"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]

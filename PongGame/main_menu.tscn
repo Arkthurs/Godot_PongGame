@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://btohk0r6cilfd"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_rw7wd"]
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_rw7wd")
+
+[node name="PlayBot" type="Button" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 124.0
+offset_top = -4.0
+offset_right = 412.0
+offset_bottom = 124.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Player vs \"Bot\""
+
+[node name="PvP" type="Button" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -436.0
+offset_top = -5.0
+offset_right = -128.0
+offset_bottom = 127.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Player vs Player"
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -173.0
+offset_right = 26.0
+offset_bottom = -95.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 200
+text = "PONG!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -141.5
+offset_right = 141.5
+offset_bottom = 26.0
+grow_horizontal = 2
+text = "Press 'Escape' to return to this Menu"
+
+[connection signal="pressed" from="PlayBot" to="." method="_on_play_bot_pressed"]
+[connection signal="pressed" from="PvP" to="." method="_on_pv_p_pressed"]
